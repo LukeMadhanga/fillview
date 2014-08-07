@@ -20,6 +20,8 @@
             var s = $.extend({
                 height: 200,
                 method: 'fill',
+                offsetLeft: 0,
+                offsetTop: 0,
                 width: 200
             }, opts);
             T.find('img').load(function () {
@@ -38,15 +40,20 @@
                         top = (s.height - nh) / 2;
                     case 'fill':
                     default:
-                        left = -(parseFloat(nw) - parseFloat(s.width)) / 2;
+                        if (nw < s.width) {
+                            nw = s.width;
+                            nh = nw / ar;
+                        }
+                        left = - (nw - s.width) / 2;
+                        top = - (nh - s.height) / 2;
                     break;
                 }
                 t.css({
                     position: 'relative', 
                     width: nw, 
                     height: nh, 
-                    left: left,
-                    top: top
+                    left: left + s.offsetLeft,
+                    top: top + s.offsetTop
                 });
                 
             });
